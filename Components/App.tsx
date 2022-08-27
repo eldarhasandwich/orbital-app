@@ -15,6 +15,10 @@ interface UuidOrbit {
 
 const App = () => {
 
+  // console.log({
+  //   msg: 'WOWEE!!!'
+  // })
+
   const [ orbitList, updateOrbitList ] = useState<UuidOrbit[]>([])
 
   const [ selectedOrbitA, setSelectedOrbitA ] = useState("")

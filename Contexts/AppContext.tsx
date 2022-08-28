@@ -16,6 +16,7 @@ interface AppContextType {
 
   addOrbitToList: (newOrbit: Orbit) => void
   deleteOrbitById: (id: string) => void
+  overwriteOrbitList: (newOrbits: Orbit[]) => void
   selectOrbitInteraction: (id: string) => void
 }
 
@@ -23,6 +24,7 @@ const defaultAppContext: AppContextType = {
   orbitList: [],
   addOrbitToList: () => {},
   deleteOrbitById: () => {},
+  overwriteOrbitList: () => {},
   selectOrbitInteraction: () => {}
 }
 
@@ -41,6 +43,17 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const deleteOrbitById = (id: string): void => {
     setOrbitList( orbitList.filter(o => o.id !== id) )
+  }
+
+  const overwriteOrbitList = (newOrbits: Orbit[]): void => {
+    setOrbitList(
+      newOrbits.map(orbit => {
+        return {
+          id: uuidv4(),
+          orbit
+        }
+      })
+    )
   }
 
   const selectOrbitInteraction = (id: string): void => {
@@ -80,6 +93,7 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
           selectedOrbitB,        
           addOrbitToList,
           deleteOrbitById,
+          overwriteOrbitList,
           selectOrbitInteraction
         }}
       >

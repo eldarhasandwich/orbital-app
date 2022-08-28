@@ -12,6 +12,7 @@ const AddOrbitModal = (props: {
 
   const { addOrbitToList } = useContext(AppContext);
 
+  const [name, setName] = useState("Unnamed Orbit")
   const [e, setE] = useState("0")
   const [a, setA] = useState("0")
   const [i, setI] = useState("0")
@@ -75,6 +76,7 @@ const AddOrbitModal = (props: {
 
   const addOrbitFn = () => {
     addOrbitToList({
+      name,
       eccentricity: parseFloat(e),
       semimajorAxis: parseFloat(a),
       inclination: parseFloat(i),
@@ -99,6 +101,8 @@ const AddOrbitModal = (props: {
       okButtonProps={{disabled: !allValid}}
       onCancel={cancelModalFn}
     >
+
+      <Input addonBefore={'Name'} value={name} onChange={e => setName(e.target.value)} style={{marginBottom: "4px"}}/>
 
       {
         inputContents.map(field => (

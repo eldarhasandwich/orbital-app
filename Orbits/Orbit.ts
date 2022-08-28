@@ -1,5 +1,6 @@
 
 export interface Orbit {
+  name: string;
   eccentricity: number
   semimajorAxis: number
   inclination: number

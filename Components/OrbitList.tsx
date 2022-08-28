@@ -33,6 +33,7 @@ const OrbitListItem = (props: {
         marginTop: '4px'
       }}
     >
+      <p> Name: {orbit.name} </p>
       <p> Eccentricity {orbit.eccentricity} </p>
       <p> Semimajor Axis {orbit.semimajorAxis} </p>
       <p> Inclination {orbit.inclination} </p>

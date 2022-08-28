@@ -1,30 +1,11 @@
 
-import { Button, Layout, Dropdown, Menu } from 'antd';
-import { DownOutlined, StarTwoTone, RocketTwoTone } from '@ant-design/icons';
+import { Button, Layout } from 'antd';
 
 import { AppContextContainer } from '../Contexts/AppContext';
 import OrbitList from './OrbitList';
-
+import LoadPremadeSystem from './LoadPremadeSystem';
 
 const { Header, Footer, Sider, Content } = Layout;
-
-const menu = (
-  <Menu
-    // onClick={handleMenuClick}
-    items={[
-      {
-        label: 'Solar System',
-        key: '1',
-        icon: <StarTwoTone />,
-      },
-      {
-        label: 'Kerbol System',
-        key: '2',
-        icon: <RocketTwoTone />,
-      }
-    ]}
-  />
-);
 
 const App = () => {
   return (
@@ -34,12 +15,7 @@ const App = () => {
           <Layout>
             <Header style={{ overflow: 'hidden' }}>
 
-              <Dropdown overlay={menu}>
-                <Button style={{ marginRight: "10px" }}>
-                  Load Premade System
-                  <DownOutlined />
-                </Button>
-              </Dropdown>
+              <LoadPremadeSystem/>
 
               <Button disabled style={{ marginRight: "10px" }}>
                 Import System

@@ -1,12 +1,16 @@
 import { Orbit } from '../Orbits/Orbit'
-import { Card, Input, Button, Tooltip } from 'antd';
-import { useState } from 'react';
+import { Card, Input, Button, Tooltip, Modal } from 'antd';
+import { useContext, useState } from 'react';
+import AppContext from '../Contexts/AppContext';
 
 const AddOrbitModal = (props: {
-  addOrbitFn: (orbit: Orbit) => void
+  isVisible: boolean
+  closeModalFn: () => void
 }) => {
 
-  const { addOrbitFn } = props
+  const { isVisible, closeModalFn } = props
+
+  const { addOrbitToList } = useContext(AppContext);
 
   const [e, setE] = useState("0")
   const [a, setA] = useState("0")
@@ -69,38 +73,43 @@ const AddOrbitModal = (props: {
 
   const allValid = inputContents.length === inputContents.filter(i => i.isValid).length
 
+  const addOrbitFn = () => {
+    addOrbitToList({
+      eccentricity: parseFloat(e),
+      semimajorAxis: parseFloat(a),
+      inclination: parseFloat(i),
+      longitudeOfAscendingNode: parseFloat(long),
+      argumentOfPeriapsis: parseFloat(arg),
+      trueAnomaly: parseFloat(t),
+    })
+    resetInput()
+    closeModalFn()
+  }
+
+  const cancelModalFn = () => {
+    resetInput()
+    closeModalFn()
+  }
+
   return (
-    <Card
-      size="small"
+    <Modal
+      visible={isVisible}
       title="New Orbit"
-      extra={
-        <Button
-          disabled={!allValid}
-          onClick={() => {
-            addOrbitFn({
-              eccentricity: parseFloat(e),
-              semimajorAxis: parseFloat(a),
-              inclination: parseFloat(i),
-              longitudeOfAscendingNode: parseFloat(long),
-              argumentOfPeriapsis: parseFloat(arg),
-              trueAnomaly: parseFloat(t),
-            })
-            resetInput()
-          }}>
-            Create
-        </Button>
-      }
+      onOk={addOrbitFn}
+      okButtonProps={{disabled: !allValid}}
+      onCancel={cancelModalFn}
     >
 
       {
         inputContents.map(field => (
-          <Tooltip placement="right" title="Requires Number" visible={!field.isValid} color='orange'>
+          <Tooltip key={field.title} placement="right" title="Requires Number" visible={!field.isValid} color='orange'>
             <Input addonBefore={field.title} value={field.value} onChange={e => field.onChangeFn(e.target.value)} style={{marginBottom: "4px"}} />
           </Tooltip>
         ))
       }
 
-    </Card>
+    </Modal>
+
   )
 }
 

@@ -1,22 +1,37 @@
 
-import { Orbit } from '../Orbits/Orbit'
-import { Card} from 'antd';
+import { Button, Card} from 'antd';
+import { useContext, useEffect, useState } from 'react';
 
 import AddOrbitModal from './AddOrbitModal'
+import { Orbit } from '../Orbits/Orbit'
+import AppContext from '../Contexts/AppContext';
 
 const OrbitListItem = (props: {
   id: string
   orbit: Orbit
-  rmOrbitFn: (id: string) => void
 }) => {
 
-  const { id, orbit, rmOrbitFn } = props
+  const { id, orbit } = props
+
+  const { deleteOrbitById } = useContext(AppContext);
+
+  const askNicelyToConfirmDeleteOrbit = () => {
+    const answer = confirm('Are you sure you want to delete this?')
+    if (answer) {
+      deleteOrbitById(id)
+    }
+  }
 
   return (
     <Card
       size="small"
       title="Orbit"
-      extra={<a onClick={() => { rmOrbitFn(id) }} style={{ color: "red" }}>Delete</a>}
+      extra={<a onClick={() => askNicelyToConfirmDeleteOrbit()} style={{ color: "red" }}>Delete</a>}
+      style={{
+        width: 'calc(100% - 8px)',
+        marginLeft: '4px',
+        marginTop: '4px'
+      }}
     >
       <p> Eccentricity {orbit.eccentricity} </p>
       <p> Semimajor Axis {orbit.semimajorAxis} </p>
@@ -28,31 +43,42 @@ const OrbitListItem = (props: {
   )
 }
 
-const OrbitList = (props: {
-  orbits: { id: string, orbit: Orbit }[]
-  addOrbitFn: (orbit: Orbit) => void
-  rmOrbitFn: (id: string) => void
-}) => {
+const OrbitList = () => {
 
-  const { orbits, addOrbitFn, rmOrbitFn } = props
+  const [ addOrbitModalVisible, setAddOrbitModalVisible ] = useState(false);
+  
+  const { orbitList } = useContext(AppContext)
 
   return (
     <div>
       {
-        orbits.map(o =>
+        orbitList.map(o =>
           <OrbitListItem
             key={o.id}
             id={o.id}
             orbit={o.orbit}
-            rmOrbitFn={rmOrbitFn}
           />
         )
       }
 
-      <AddOrbitModal
-        addOrbitFn={addOrbitFn}
-      />
+      <Button
+        disabled={addOrbitModalVisible}
+        type='primary'
+        onClick={() => setAddOrbitModalVisible(true)}
+        style={{
+          width: 'calc(100% - 8px)',
+          marginLeft: '4px',
+          marginTop: '4px',
+          marginBottom: '4px'
+        }}
+      >
+        New Orbit
+      </Button>
 
+      <AddOrbitModal
+        isVisible={addOrbitModalVisible}
+        closeModalFn={() => setAddOrbitModalVisible(false)}
+      />
     </div>
   )
 }

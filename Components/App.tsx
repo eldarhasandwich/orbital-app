@@ -1,102 +1,77 @@
-import { useState } from 'react';
+
+import { Button, Layout, Dropdown, Menu } from 'antd';
+import { DownOutlined, StarTwoTone, RocketTwoTone } from '@ant-design/icons';
+
+import { AppContextContainer } from '../Contexts/AppContext';
 import OrbitList from './OrbitList';
-import { v4 as uuidv4 } from 'uuid';
 
-import { Orbit } from '../Orbits/Orbit'
-
-import { Button, Layout } from 'antd';
 
 const { Header, Footer, Sider, Content } = Layout;
 
-interface UuidOrbit {
-  id: string
-  orbit: Orbit
-}
+const menu = (
+  <Menu
+    // onClick={handleMenuClick}
+    items={[
+      {
+        label: 'Solar System',
+        key: '1',
+        icon: <StarTwoTone />,
+      },
+      {
+        label: 'Kerbol System',
+        key: '2',
+        icon: <RocketTwoTone />,
+      }
+    ]}
+  />
+);
 
 const App = () => {
-
-  // console.log({
-  //   msg: 'WOWEE!!!'
-  // })
-
-  const [ orbitList, updateOrbitList ] = useState<UuidOrbit[]>([])
-
-  const [ selectedOrbitA, setSelectedOrbitA ] = useState("")
-  const [ selectedOrbitB, setSelectedOrbitB ] = useState("")
-
-  const addOrbitToList = (newOrbit: Orbit): void => {
-    updateOrbitList( [ ...orbitList, { id: uuidv4(), orbit: newOrbit} ] )
-  }
-
-  const deleteOrbitById = (id: string): void => {
-    updateOrbitList( orbitList.filter(o => o.id !== id) )
-  }
-
-  const selectOrbitInteraction = (id: string): void => {
-    if (selectedOrbitA === "") {
-      setSelectedOrbitA(id)
-      setSelectedOrbitB("")
-      return
-    }
-
-    if (selectedOrbitB === "") {
-      setSelectedOrbitA("")
-      return
-    }
-
-    // if we de-select orbit A, we want to push orbit B to A.
-    if (id === selectedOrbitA) {
-      const tmp = selectedOrbitB
-      setSelectedOrbitB("")
-      setSelectedOrbitA(tmp)
-      return
-    }
-
-    if (id === selectedOrbitB) {
-      setSelectedOrbitB("")
-      return
-    }
-
-    setSelectedOrbitB(id)
-  }
-
   return (
-    <>
-      <Layout>
-
-        <Sider
-          style={{
-            overflow: 'auto',
-            height: '100vh',
-            left: 0
-          }}
-          width={280}
-        >
-          <OrbitList
-            orbits={orbitList}
-            addOrbitFn={addOrbitToList}
-            rmOrbitFn={deleteOrbitById}
-          />
-        </Sider>
-
+      <AppContextContainer>
         <Layout>
-          <Header style={{ overflow: 'hidden' }}>
-            <Button disabled style={{ marginRight: "10px" }}>
-              Import List
-            </Button>
-            <Button disabled style={{ marginRight: "10px" }}>
-              Export List
-            </Button>
-            <Button disabled style={{ float: 'right', top: '15px' }}>
-              Generate Transfer Orbit
-            </Button>
-          </Header>
-          <Content>Draw orbits here at some point</Content>
-          {/* <Footer>Footer</Footer> */}
-        </Layout>
 
-      </Layout>
-    </>
+          <Layout>
+            <Header style={{ overflow: 'hidden' }}>
+
+              <Dropdown overlay={menu}>
+                <Button style={{ marginRight: "10px" }}>
+                  Load Premade System
+                  <DownOutlined />
+                </Button>
+              </Dropdown>
+
+              <Button disabled style={{ marginRight: "10px" }}>
+                Import System
+              </Button>
+              <Button disabled style={{ marginRight: "10px" }}>
+                Export System
+              </Button>
+              <Button disabled style={{ float: 'right', top: '15px' }}>
+                Generate Transfer Orbit
+              </Button>
+            </Header>
+
+
+            <Content>Draw orbits here at some point</Content>
+
+
+            {/* <Footer>Footer</Footer> */}
+          </Layout>
+
+          <Sider
+            style={{
+              overflow: 'auto',
+              height: '100vh',
+              left: 0
+            }}
+            width={400}
+          >
+            <OrbitList/>
+          </Sider>
+
+        </Layout>
+      </AppContextContainer>
   );
 }
 

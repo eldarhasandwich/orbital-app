@@ -1,3 +1,13 @@
+# Orbital App
+
+I need (want) a tool to be able to quickly visualise orbits given their elements so I can test methods of calculating interplanetary transfers.
+
+Readings
+- https://en.wikipedia.org/wiki/Orbital_elements
+- http://www.braeunig.us/space/
+- http://www.braeunig.us/space/orbmech.htm
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

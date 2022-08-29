@@ -1,5 +1,5 @@
-import { Modal } from "antd"
-import { useContext } from "react";
+import { Input, Modal } from "antd"
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../Contexts/AppContext";
 
 
@@ -16,17 +16,39 @@ const EditCentralMassModal = (props: {
     editCentralMassMass,
   } = useContext(AppContext)
 
+  const [ name, setName ] = useState(centralMass.name)
+  const [ mass, setMass ] = useState(centralMass.mass)
+
+  useEffect(() => {
+    setName(centralMass.name)
+    setMass(centralMass.mass)
+  }, [isVisible])
+
+  const editMassFn = () => {
+
+    editCentralMassName(name)
+    editCentralMassMass(mass)
+    closeModalFn()
+
+  }
+
+  const cancelModalFn = () => {
+    setName(centralMass.name)
+    setMass(centralMass.mass)
+    closeModalFn()
+  }
+
   return (
     <Modal
       visible={isVisible}
       title="Edit Cental Mass"
-      // onOk={addOrbitFn}
-      okButtonProps={{}}
-      onCancel={closeModalFn}
+      onOk={editMassFn}
+      okButtonProps={{ disabled: false }}
+      onCancel={cancelModalFn}
     >
 
-      <p> {centralMass.name} </p>
-      <p> {centralMass.mass} </p>
+      <Input addonBefore={'Name'} value={name} onChange={e => setName(e.target.value)} style={{marginBottom: "4px"}} />
+      <Input addonBefore={'Mass'} addonAfter={'kg'} value={mass} onChange={e => setMass(parseFloat(e.target.value))} style={{marginBottom: "4px"}} />
 
     </Modal>
   )

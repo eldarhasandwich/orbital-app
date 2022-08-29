@@ -4,6 +4,7 @@ I need (want) a tool to be able to quickly visualise orbits given their elements
 
 Readings
 - https://en.wikipedia.org/wiki/Orbital_elements
+- https://en.wikipedia.org/wiki/Epoch_(astronomy)#J2000
 - http://www.braeunig.us/space/
 - http://www.braeunig.us/space/orbmech.htm
 

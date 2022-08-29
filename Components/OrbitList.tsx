@@ -22,6 +22,10 @@ const OrbitListItem = (props: {
     }
   }
 
+  const formatBigNumberWithCommas = (n: number) => {
+    return n
+  }
+
   return (
     <Card
       size="small"
@@ -34,12 +38,12 @@ const OrbitListItem = (props: {
       }}
     >
       <p> Name: {orbit.name} </p>
-      <p> Eccentricity {orbit.eccentricity} </p>
-      <p> Semimajor Axis {orbit.semimajorAxis} </p>
-      <p> Inclination {orbit.inclination} </p>
-      <p> Longitude of Ascending Node {orbit.longitudeOfAscendingNode} </p>
-      <p> Argument of Periapsis {orbit.argumentOfPeriapsis} </p>
-      <p> True Anomaly {orbit.trueAnomaly} </p>
+      <p> Eccentricity: {orbit.eccentricity} </p>
+      <p> Semimajor Axis: {formatBigNumberWithCommas(orbit.semimajorAxis)} metres </p>
+      <p> Inclination: {orbit.inclination} degrees </p>
+      <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
+      <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
+      <p> True Anomaly: {orbit.trueAnomaly} degrees </p>
     </Card>
   )
 }
@@ -53,13 +57,15 @@ const OrbitList = () => {
   return (
     <div>
       {
-        orbitList.map(o =>
-          <OrbitListItem
-            key={o.id}
-            id={o.id}
-            orbit={o.orbit}
-          />
-        )
+        orbitList
+          .sort((a,b) => a.orbit.semimajorAxis - b.orbit.semimajorAxis)
+          .map(o =>
+            <OrbitListItem
+              key={o.id}
+              id={o.id}
+              orbit={o.orbit}
+            />
+          )
       }
 
       <Button

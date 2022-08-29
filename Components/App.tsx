@@ -31,8 +31,11 @@ const App = () => {
 
             <Content>Draw orbits here at some point</Content>
 
-
-            {/* <Footer>Footer</Footer> */}
+            <Footer
+              style={{background:'grey'}}
+            >
+              Gonna put some time controls here or something
+            </Footer>
           </Layout>
 
           <Sider

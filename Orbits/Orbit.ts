@@ -1,5 +1,20 @@
 
 /**
+ * Central mass of the system.
+ */
+export interface CentralMass {
+  /**
+   * Human readable tag for the mass.
+   */
+  name: string;
+
+  /**
+   * Mass in kilograms.
+   */
+  mass: number;
+}
+
+/**
  * Orbits defined using Keplerian orbital elements.
  */
 export interface Orbit {

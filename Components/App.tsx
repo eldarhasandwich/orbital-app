@@ -2,7 +2,7 @@
 import { Button, Layout } from 'antd';
 
 import { AppContextContainer } from '../Contexts/AppContext';
-import OrbitList from './OrbitList';
+import OrbitList from './OrbitList/OrbitList';
 import LoadPremadeSystem from './LoadPremadeSystem';
 
 const { Header, Footer, Sider, Content } = Layout;

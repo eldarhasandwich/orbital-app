@@ -1,7 +1,8 @@
-import { Orbit } from "./Orbit";
+import { CentralMass, Orbit } from "./Orbit";
 
 interface OrbitalSystem {
   id: string
+  centralMass: CentralMass
   orbits: Orbit[]
 }
 
@@ -14,6 +15,10 @@ interface OrbitalSystem {
  */
 export const SolarSystem: OrbitalSystem = {
   id: 'solar_system',
+  centralMass: {
+    name: 'Sol',
+    mass: 1.98847 * Math.pow(10, 30)
+  },
   orbits: [
     {
       name: 'Mercury',
@@ -59,6 +64,10 @@ export const SolarSystem: OrbitalSystem = {
  */
 export const KerbolSystem: OrbitalSystem = {
   id: 'kerbol_system',
+  centralMass: {
+    name: 'Kerbol',
+    mass: 1.7565459 * Math.pow(10, 28)
+  },
   orbits: [
     {
       name: 'Nothing here yet!',

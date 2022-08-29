@@ -3,8 +3,15 @@ import { Button, Card} from 'antd';
 import { useContext, useEffect, useState } from 'react';
 
 import AddOrbitModal from './AddOrbitModal'
-import { Orbit } from '../Orbits/Orbit'
-import AppContext from '../Contexts/AppContext';
+import { Orbit } from '../../Orbits/Orbit'
+import AppContext from '../../Contexts/AppContext';
+import EditCentralMassModal from './EditCentralMassModal';
+
+const itemStyle = {
+  width: 'calc(100% - 8px)',
+  marginLeft: '4px',
+  marginTop: '4px'
+}
 
 const OrbitListItem = (props: {
   id: string
@@ -31,11 +38,7 @@ const OrbitListItem = (props: {
       size="small"
       title="Orbit"
       extra={<a onClick={() => askNicelyToConfirmDeleteOrbit()} style={{ color: "red" }}>Delete</a>}
-      style={{
-        width: 'calc(100% - 8px)',
-        marginLeft: '4px',
-        marginTop: '4px'
-      }}
+      style={itemStyle}
     >
       <p> Name: {orbit.name} </p>
       <p> Eccentricity: {orbit.eccentricity} </p>
@@ -51,11 +54,21 @@ const OrbitListItem = (props: {
 const OrbitList = () => {
 
   const [ addOrbitModalVisible, setAddOrbitModalVisible ] = useState(false);
+  const [ editCentralMassModalVisible, setEditCentralMassModalVisible ] = useState(false);
   
   const { orbitList } = useContext(AppContext)
 
   return (
     <div>
+      <Button
+        disabled={editCentralMassModalVisible}
+        type='primary'
+        onClick={() => { setEditCentralMassModalVisible(true) }}
+        style={itemStyle}
+      >
+        Edit Cental Mass
+      </Button>
+
       {
         orbitList
           .sort((a,b) => a.orbit.semimajorAxis - b.orbit.semimajorAxis)
@@ -73,14 +86,17 @@ const OrbitList = () => {
         type='primary'
         onClick={() => setAddOrbitModalVisible(true)}
         style={{
-          width: 'calc(100% - 8px)',
-          marginLeft: '4px',
-          marginTop: '4px',
+          ...itemStyle,
           marginBottom: '4px'
         }}
       >
         New Orbit
       </Button>
+
+      <EditCentralMassModal
+        isVisible={editCentralMassModalVisible}
+        closeModalFn={() => setEditCentralMassModalVisible(false)}
+      />
 
       <AddOrbitModal
         isVisible={addOrbitModalVisible}

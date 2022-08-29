@@ -2,7 +2,7 @@
 import React, { ReactElement, ReactNode, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Orbit } from '../Orbits/Orbit'
+import { Orbit, CentralMass } from '../Orbits/Orbit'
 
 interface UuidOrbit {
   id: string
@@ -10,9 +10,13 @@ interface UuidOrbit {
 }
 
 interface AppContextType {
+  centralMass: CentralMass
   orbitList: UuidOrbit[];
   selectedOrbitA?: string
   selectedOrbitB?: string
+
+  editCentralMassName: (newName: string) => void
+  editCentralMassMass: (newMass: number) => void
 
   addOrbitToList: (newOrbit: Orbit) => void
   deleteOrbitById: (id: string) => void
@@ -21,7 +25,13 @@ interface AppContextType {
 }
 
 const defaultAppContext: AppContextType = {
+  centralMass: {
+    name: 'Unnamed',
+    mass: 1
+  },
   orbitList: [],
+  editCentralMassName: () => {},
+  editCentralMassMass: () => {},
   addOrbitToList: () => {},
   deleteOrbitById: () => {},
   overwriteOrbitList: () => {},
@@ -34,8 +44,19 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const [ orbitList, setOrbitList ] = useState<UuidOrbit[]>([]);
 
+  const [ centralMassName, setCentralMassName ] = useState<string>(defaultAppContext.centralMass.name);
+  const [ centralMassMass, setCentralMassMass ] = useState<number>(defaultAppContext.centralMass.mass);
+
   const [ selectedOrbitA, setSelectedOrbitA ] = useState<string | undefined>(undefined);
   const [ selectedOrbitB, setSelectedOrbitB ] = useState<string | undefined>(undefined);
+
+  const editCentralMassName = (newName: string): void => {
+    setCentralMassName(newName);
+  }
+
+  const editCentralMassMass = (newMass: number): void => {
+    setCentralMassMass(newMass);
+  }
 
   const addOrbitToList = (newOrbit: Orbit): void => {
     setOrbitList( [ ...orbitList, { id: uuidv4(), orbit: newOrbit} ] )
@@ -88,7 +109,13 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
     <>
       <AppContext.Provider
         value={{
+          centralMass: {
+            name: centralMassName,
+            mass: centralMassMass
+          },
           orbitList,
+          editCentralMassName,
+          editCentralMassMass,
           selectedOrbitA,
           selectedOrbitB,        
           addOrbitToList,

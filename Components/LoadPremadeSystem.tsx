@@ -8,7 +8,11 @@ import AppContext from '../Contexts/AppContext';
 
 const LoadPremadeSystem = () => {
 
-  const { overwriteOrbitList } = useContext(AppContext);
+  const { 
+    editCentralMassName,
+    editCentralMassMass,
+    overwriteOrbitList
+  } = useContext(AppContext);
 
   const handleMenuSelection = (item: { key: string }) => {
     const answer = confirm('Are you sure? This will overwrite the current state of the application.')
@@ -20,6 +24,8 @@ const LoadPremadeSystem = () => {
   
     const selectedSystem = PremadeSystems[key]
 
+    editCentralMassName(selectedSystem.centralMass.name)
+    editCentralMassMass(selectedSystem.centralMass.mass)
     overwriteOrbitList(selectedSystem.orbits)
   }
 

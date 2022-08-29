@@ -1,7 +1,7 @@
-import { Orbit } from '../Orbits/Orbit'
+import { Orbit } from '../../Orbits/Orbit'
 import { Card, Input, Button, Tooltip, Modal } from 'antd';
 import { useContext, useState } from 'react';
-import AppContext from '../Contexts/AppContext';
+import AppContext from '../../Contexts/AppContext';
 
 const AddOrbitModal = (props: {
   isVisible: boolean

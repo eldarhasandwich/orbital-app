@@ -4,6 +4,11 @@ import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 
 import Controls from './OrbitControls';
 
+/**
+ * The central 3d visualisation of the orbital system
+ * @see https://dev.to/hnicolus/how-to-use-threejs-in-react-nextjs-4120
+ */
+
 const OrbitVisualisation = () => {
 
   return (
@@ -24,7 +29,7 @@ const OrbitVisualisation = () => {
 
         <ambientLight color={"white"} intensity={0.3} />
 
-        <mesh recieveShadow={true}>
+        <mesh receiveShadow={true}>
           <boxBufferGeometry args={[1,1,1]} />
           <meshPhysicalMaterial color='yellow' />
         </mesh>

@@ -1,4 +1,6 @@
 
+const GRAVITATIONAL_CONSTANT = 6.67408 * Math.pow(10,-11)
+
 /**
  * Central mass of the system.
  */
@@ -52,4 +54,23 @@ export interface Orbit {
    * True anomaly, measured in degrees.
    */
   trueAnomaly: number
+}
+
+/**
+ * Find the cartesian position of a given orbiting body at a given time.
+ * @param centralBodyMass 
+ * @param orbit 
+ * @param timeFromEpoch 
+ * @returns 3 dimensional position of the body of the given orbit
+ */
+export const GetPositionOfBody = (
+  centralBodyMass: number,
+  orbit: Orbit,
+  timeFromEpoch: number
+): number[] => {
+
+  
+  
+  const position = [0,0,0];
+  return position;
 }

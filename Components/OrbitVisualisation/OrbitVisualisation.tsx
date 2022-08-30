@@ -1,5 +1,8 @@
 
 import { Canvas } from "@react-three/fiber";
+import { useContext } from "react";
+import AppContext from "../../Contexts/AppContext";
+import { GetPositionOfBody } from "../../Orbits/Orbit";
 import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 
 import Controls from './OrbitControls';
@@ -10,6 +13,8 @@ import Controls from './OrbitControls';
  */
 
 const OrbitVisualisation = () => {
+
+  const { centralMass, orbitList, time } = useContext(AppContext)
 
   return (
     <div style={{
@@ -33,6 +38,32 @@ const OrbitVisualisation = () => {
           <boxBufferGeometry args={[1,1,1]} />
           <meshPhysicalMaterial color='yellow' />
         </mesh>
+
+        {
+          orbitList.map((o, i) => {
+            const { orbit } = o;
+
+            const position = GetPositionOfBody(
+              centralMass.mass,
+              orbit,
+              time
+            )
+
+            console.log({
+              n: orbit.name,
+              position
+            })
+
+            return (
+              <mesh position={[0, 0, (i*2) + 2]} receiveShadow={true}>
+
+                <boxBufferGeometry args={[1,1,1]} />
+                <meshPhysicalMaterial color='brown' />
+
+              </mesh>
+            )
+          })
+        }
 
       </Canvas>
     </div>

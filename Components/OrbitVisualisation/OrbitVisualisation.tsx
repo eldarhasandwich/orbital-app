@@ -1,5 +1,8 @@
 
 import { Canvas } from "@react-three/fiber";
+import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
+
+import Controls from './OrbitControls';
 
 const OrbitVisualisation = () => {
 
@@ -11,12 +14,20 @@ const OrbitVisualisation = () => {
       <Canvas
         shadows={true}
         style={{
-          background: '#ffffffff'
+          background: MEDIUM_DARK_BLUE
         }}
         camera={{
           position: [-6, 7, 7],
         }}
       >
+        <Controls/>
+
+        <ambientLight color={"white"} intensity={0.3} />
+
+        <mesh recieveShadow={true}>
+          <boxBufferGeometry args={[1,1,1]} />
+          <meshPhysicalMaterial color='yellow' />
+        </mesh>
 
       </Canvas>
     </div>

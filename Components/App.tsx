@@ -5,6 +5,7 @@ import { AppContextContainer } from '../Contexts/AppContext';
 import OrbitList from './OrbitList/OrbitList';
 import LoadPremadeSystem from './LoadPremadeSystem';
 import OrbitVisualisation from './OrbitVisualisation/OrbitVisualisation';
+import { DARK_BLUE } from '../styles/Colours';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -14,7 +15,7 @@ const App = () => {
         <Layout>
 
           <Layout>
-            <Header style={{ overflow: 'hidden' }}>
+            <Header style={{ overflow: 'hidden', background: DARK_BLUE }}>
 
               <LoadPremadeSystem/>
 
@@ -34,17 +35,19 @@ const App = () => {
             </Content>
 
             <Footer
-              style={{background:'grey'}}
+              style={{background: DARK_BLUE, color: 'white'}}
             >
               Gonna put some time controls here or something
             </Footer>
           </Layout>
 
           <Sider
+            hidden={false}
             style={{
               overflow: 'auto',
               height: '100vh',
-              left: 0
+              left: 0,
+              background: DARK_BLUE
             }}
             width={400}
           >

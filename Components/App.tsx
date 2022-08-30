@@ -4,6 +4,7 @@ import { Button, Layout } from 'antd';
 import { AppContextContainer } from '../Contexts/AppContext';
 import OrbitList from './OrbitList/OrbitList';
 import LoadPremadeSystem from './LoadPremadeSystem';
+import OrbitVisualisation from './OrbitVisualisation/OrbitVisualisation';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -28,8 +29,9 @@ const App = () => {
               </Button>
             </Header>
 
-
-            <Content>Draw orbits here at some point</Content>
+            <Content>
+              <OrbitVisualisation/>
+            </Content>
 
             <Footer
               style={{background:'grey'}}

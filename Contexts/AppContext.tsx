@@ -10,10 +10,14 @@ interface UuidOrbit {
 }
 
 interface AppContextType {
+  time: number
+
   centralMass: CentralMass
-  orbitList: UuidOrbit[];
+  orbitList: UuidOrbit[]
   selectedOrbitA?: string
   selectedOrbitB?: string
+
+  setSimulationTime: (newTime: number) => void
 
   editCentralMassName: (newName: string) => void
   editCentralMassMass: (newMass: number) => void
@@ -25,11 +29,13 @@ interface AppContextType {
 }
 
 const defaultAppContext: AppContextType = {
+  time: 0,
   centralMass: {
     name: 'Unnamed',
     mass: 1
   },
   orbitList: [],
+  setSimulationTime: () => {},
   editCentralMassName: () => {},
   editCentralMassMass: () => {},
   addOrbitToList: () => {},
@@ -42,6 +48,8 @@ const AppContext = React.createContext<AppContextType>(defaultAppContext);
 
 export const AppContextContainer: React.FC<{children: ReactElement}> = ({children}) => {
 
+  const [ time, setTime ] = useState<number>(0);
+
   const [ orbitList, setOrbitList ] = useState<UuidOrbit[]>([]);
 
   const [ centralMassName, setCentralMassName ] = useState<string>(defaultAppContext.centralMass.name);
@@ -49,6 +57,10 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const [ selectedOrbitA, setSelectedOrbitA ] = useState<string | undefined>(undefined);
   const [ selectedOrbitB, setSelectedOrbitB ] = useState<string | undefined>(undefined);
+
+  const setSimulationTime = (newTime: number): void => {
+    setTime(newTime);
+  }
 
   const editCentralMassName = (newName: string): void => {
     setCentralMassName(newName);
@@ -109,11 +121,13 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
     <>
       <AppContext.Provider
         value={{
+          time,
           centralMass: {
             name: centralMassName,
             mass: centralMassMass
           },
           orbitList,
+          setSimulationTime,
           editCentralMassName,
           editCentralMassMass,
           selectedOrbitA,

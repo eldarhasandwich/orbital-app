@@ -18,7 +18,7 @@ const AddOrbitModal = (props: {
   const [i, setI] = useState("0")
   const [long, setLong] = useState("0")
   const [arg, setArg] = useState("0")
-  const [t, setT] = useState("0")
+  const [m0, setM0] = useState("0")
 
   const isValidNumber = (n: string): boolean => {
     return (/^[0-9][0-9]*(\.[0-9][0-9]*)?$/).test(n)
@@ -30,7 +30,7 @@ const AddOrbitModal = (props: {
     setI("0")
     setLong("0")
     setArg("0")
-    setT("0")
+    setM0("0")
   }
 
   const inputContents = [
@@ -38,37 +38,43 @@ const AddOrbitModal = (props: {
       title: "Eccentricity",
       value: e,
       onChangeFn: setE,
-      isValid: isValidNumber(e)
+      isValid: isValidNumber(e),
+      unit: undefined
     },
     {
       title: "Semimajor Axis",
       value: a,
       onChangeFn: setA,
-      isValid: isValidNumber(a)
+      isValid: isValidNumber(a),
+      unit: 'metres'
     },
     {
       title: "Inclination",
       value: i,
       onChangeFn: setI,
-      isValid: isValidNumber(i)
+      isValid: isValidNumber(i),
+      unit: 'degrees'
     },
     {
       title: "Long. of Acend.",
       value: long,
       onChangeFn: setLong,
-      isValid: isValidNumber(long)
+      isValid: isValidNumber(long),
+      unit: 'degrees'
     },
     {
       title: "Arg. of Peri.",
       value: arg,
       onChangeFn: setArg,
-      isValid: isValidNumber(arg)
+      isValid: isValidNumber(arg),
+      unit: 'degrees'
     },
     {
-      title: "True Anomaly",
-      value: t,
-      onChangeFn: setT,
-      isValid: isValidNumber(t)
+      title: "Mean Anomaly",
+      value: m0,
+      onChangeFn: setM0,
+      isValid: isValidNumber(m0),
+      unit: 'degrees'
     }
   ]
 
@@ -82,7 +88,7 @@ const AddOrbitModal = (props: {
       inclination: parseFloat(i),
       longitudeOfAscendingNode: parseFloat(long),
       argumentOfPeriapsis: parseFloat(arg),
-      trueAnomaly: parseFloat(t),
+      meanAnomaly: parseFloat(m0),
     })
     resetInput()
     closeModalFn()
@@ -107,7 +113,13 @@ const AddOrbitModal = (props: {
       {
         inputContents.map(field => (
           <Tooltip key={field.title} placement="right" title="Requires Number" visible={!field.isValid} color='orange'>
-            <Input addonBefore={field.title} value={field.value} onChange={e => field.onChangeFn(e.target.value)} style={{marginBottom: "4px"}} />
+            <Input 
+              addonBefore={field.title}
+              addonAfter={field.unit}
+              value={field.value} 
+              onChange={e => field.onChangeFn(e.target.value)} 
+              style={{marginBottom: "4px"}} 
+            />
           </Tooltip>
         ))
       }

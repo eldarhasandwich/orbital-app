@@ -27,7 +27,7 @@ export const SolarSystem: OrbitalSystem = {
       inclination: 6.35,
       longitudeOfAscendingNode: 48.331,
       argumentOfPeriapsis: 29.124,
-      trueAnomaly: 176.9333
+      meanAnomaly: 174.796
     },
     {
       name: 'Venus',
@@ -36,7 +36,7 @@ export const SolarSystem: OrbitalSystem = {
       inclination: 2.15,
       longitudeOfAscendingNode: 76.680,
       argumentOfPeriapsis: 54.884,
-      trueAnomaly: 50.71046
+      meanAnomaly: 50.115
     },
     {
       name: 'Earth',
@@ -45,7 +45,7 @@ export const SolarSystem: OrbitalSystem = {
       inclination: 1.57869,
       longitudeOfAscendingNode: -11.26064,
       argumentOfPeriapsis: 114.20783,
-      trueAnomaly: 358.5708
+      meanAnomaly: 358.617
     },
     {
       name: 'Mars',
@@ -54,7 +54,7 @@ export const SolarSystem: OrbitalSystem = {
       inclination: 1.63,
       longitudeOfAscendingNode: 49.57854,
       argumentOfPeriapsis: 286.5,
-      trueAnomaly: 22.96919
+      meanAnomaly: 19.412
     }
   ]
 }
@@ -76,7 +76,7 @@ export const KerbolSystem: OrbitalSystem = {
       inclination: 0,
       longitudeOfAscendingNode: 0,
       argumentOfPeriapsis: 0,
-      trueAnomaly: 0
+      meanAnomaly: 0
     }
   ]
 }

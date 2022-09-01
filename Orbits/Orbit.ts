@@ -97,6 +97,16 @@ interface StateVectors {
   velocity: number[]
 }
 
+const SolveKeplersEquation = (meanAnomalyInRadians: number, eccentricity: number) => {
+  let eccentricAnomalyInRadians =  meanAnomalyInRadians;
+  while(true) {
+    var dE = (eccentricAnomalyInRadians - eccentricity * Math.sin(eccentricAnomalyInRadians) - meanAnomalyInRadians)/(1 - eccentricity * Math.cos(eccentricAnomalyInRadians));
+    eccentricAnomalyInRadians -= dE;
+    if (Math.abs(dE) < 1e-6) break;
+  }
+  return eccentricAnomalyInRadians;
+}
+
 export const GetOrbitStateVectors = (
   centralBodyMass: number,
   orbit: Orbit,
@@ -110,12 +120,7 @@ export const GetOrbitStateVectors = (
   const argumentOfPeriapsis_radians = toRadians(orbit.argumentOfPeriapsis)
   const meanAnomaly_radians = toRadians(orbit.meanAnomaly)
 
-  let eccentricAnomaly_radians =  meanAnomaly_radians;
-  while(true) {
-    var dE = (eccentricAnomaly_radians - eccentricity * Math.sin(eccentricAnomaly_radians) - meanAnomaly_radians)/(1 - eccentricity * Math.cos(eccentricAnomaly_radians));
-    eccentricAnomaly_radians -= dE;
-    if (Math.abs(dE) < 1e-6) break;
-  }
+  const eccentricAnomaly_radians = SolveKeplersEquation (meanAnomaly_radians, eccentricity)
 
   var P = semimajorAxis * (Math.cos(eccentricAnomaly_radians) - eccentricity);
   var Q = semimajorAxis * Math.sin(eccentricAnomaly_radians) * Math.sqrt(1 - Math.pow(eccentricity, 2));

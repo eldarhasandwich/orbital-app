@@ -46,7 +46,7 @@ const OrbitListItem = (props: {
       <p> Inclination: {orbit.inclination} degrees </p>
       <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
       <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
-      <p> True Anomaly: {orbit.trueAnomaly} degrees </p>
+      <p> Mean Anomaly: {orbit.meanAnomaly} degrees </p>
     </Card>
   )
 }

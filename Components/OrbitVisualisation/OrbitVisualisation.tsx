@@ -1,8 +1,9 @@
 
 import { Canvas } from "@react-three/fiber";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import * as THREE from 'three'
 import AppContext from "../../Contexts/AppContext";
-import { GetOrbitStateVectors } from "../../Orbits/Orbit";
+import { GetOrbitStateVectors, Orbit } from "../../Orbits/Orbit";
 import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 
 import Controls from './OrbitControls';
@@ -13,6 +14,45 @@ const SCALING_FACTOR = 10_000_000;
  * The central 3d visualisation of the orbital system
  * @see https://dev.to/hnicolus/how-to-use-threejs-in-react-nextjs-4120
  */
+
+const GetOrbitOutlinePositionSet = (orbit: Orbit): THREE.Vector3[] => {
+  const pointSet = Array.from(Array(360)).map((_, point) => {
+
+    const { position } = GetOrbitStateVectors(
+      1,
+      {
+        ...orbit,
+        meanAnomaly: point
+      },
+      0
+    )
+
+    const scaledPosition = position.map(x => x / SCALING_FACTOR)
+
+    return new THREE.Vector3( scaledPosition[0], scaledPosition[2], scaledPosition[1] )
+  })
+
+  pointSet.push(pointSet[0])
+
+  return pointSet
+}
+
+const OrbitLine = (props: { orbit: Orbit }) => {
+  
+  const { orbit } = props;
+
+  const outlinePoints = GetOrbitOutlinePositionSet(orbit)
+  
+  const lineGeometry = new THREE.BufferGeometry().setFromPoints(outlinePoints)
+
+  return (
+    <line geometry={lineGeometry}>
+      <bufferGeometry />
+      <lineBasicMaterial color="white" linewidth={20}/>
+    </line>
+  )
+
+}
 
 const OrbitVisualisation = () => {
 
@@ -45,19 +85,13 @@ const OrbitVisualisation = () => {
           orbitList.map((o, i) => {
             const { orbit } = o;
 
-            const { position, velocity } = GetOrbitStateVectors(
+            const { position } = GetOrbitStateVectors(
               centralMass.mass,
               orbit,
               time
-            )
+            )            
 
-            console.log({
-              n: orbit.name,
-              position,
-              velocity
-            })
-
-            const p = position.map(x => x/10_000_000)
+            const p = position.map(x => x / SCALING_FACTOR)
 
             return (
               <>
@@ -68,30 +102,9 @@ const OrbitVisualisation = () => {
 
                 </mesh>
 
-                {
-                  Array.from(Array(360)).map((_, point) => {
-
-                    const { position: pointPosition } = GetOrbitStateVectors(
-                      centralMass.mass,
-                      {
-                        ...orbit,
-                        meanAnomaly: point
-                      },
-                      0
-                    )
-
-                    const pp = pointPosition.map(x => x/10_000_000)
-
-                    return (
-                      <mesh key={`${i}_${point}`} position={[ pp[0], pp[2], pp[1] ]} receiveShadow={true}>
-
-                        <boxBufferGeometry args={[0.1,0.1,0.1]} />
-                        <meshPhysicalMaterial color='white' />
-
-                      </mesh>
-                    )
-                  })
-                }
+                <OrbitLine
+                  orbit={orbit}
+                />
 
               </>
             )

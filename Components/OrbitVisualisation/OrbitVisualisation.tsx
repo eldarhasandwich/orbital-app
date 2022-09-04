@@ -1,6 +1,6 @@
 
 import { Canvas } from "@react-three/fiber";
-import { useContext, useState } from "react";
+import { useContext, useRef, useLayoutEffect, LegacyRef } from "react";
 import * as THREE from 'three'
 import AppContext from "../../Contexts/AppContext";
 import { GetOrbitStateVectors, Orbit } from "../../Orbits/Orbit";
@@ -8,6 +8,7 @@ import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 
 import Controls from './OrbitControls';
 
+// divide position vectors by this number
 const SCALING_FACTOR = 10_000_000;
 
 /**
@@ -34,8 +35,11 @@ const GetOrbitOutlinePositionSet = (orbit: Orbit): THREE.Vector3[] => {
 
   pointSet.push(pointSet[0])
 
+
   return pointSet
 }
+
+type ThreeJsLineElementType = SVGLineElement & { geometry: { setFromPoints: (x: THREE.Vector3[]) => void } }
 
 const OrbitLine = (props: { orbit: Orbit }) => {
   
@@ -43,10 +47,15 @@ const OrbitLine = (props: { orbit: Orbit }) => {
 
   const outlinePoints = GetOrbitOutlinePositionSet(orbit)
   
-  const lineGeometry = new THREE.BufferGeometry().setFromPoints(outlinePoints)
+  const ref = useRef<ThreeJsLineElementType>()
+  useLayoutEffect(() => {
+    if (!ref.current) return;
+
+    ref.current.geometry.setFromPoints(outlinePoints);
+  }, [outlinePoints])
 
   return (
-    <line geometry={lineGeometry}>
+    <line ref={ref}>
       <bufferGeometry />
       <lineBasicMaterial color="white" linewidth={20}/>
     </line>
@@ -94,8 +103,8 @@ const OrbitVisualisation = () => {
             const p = position.map(x => x / SCALING_FACTOR)
 
             return (
-              <>
-                <mesh key={i} position={[ p[0], p[2], p[1] ]} receiveShadow={true}>
+              <group key={i}>
+                <mesh position={[ p[0], p[2], p[1] ]} receiveShadow={true}>
 
                   <boxBufferGeometry args={[1,1,1]} />
                   <meshPhysicalMaterial color='brown' />
@@ -106,7 +115,7 @@ const OrbitVisualisation = () => {
                   orbit={orbit}
                 />
 
-              </>
+              </group>
             )
           })
         }

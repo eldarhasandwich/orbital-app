@@ -22,7 +22,7 @@ const EditCentralMassModal = (props: {
   useEffect(() => {
     setName(centralMass.name)
     setMass(centralMass.mass)
-  }, [isVisible])
+  }, [isVisible, centralMass.name, centralMass.mass])
 
   const editMassFn = () => {
 

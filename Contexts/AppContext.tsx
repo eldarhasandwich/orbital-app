@@ -9,7 +9,9 @@ interface UuidOrbit {
   orbit: Orbit
 }
 
-interface AppContextType {
+type ClickType = 'left' | 'right'
+
+export interface AppContextType {
   time: number
 
   centralMass: CentralMass
@@ -25,7 +27,7 @@ interface AppContextType {
   addOrbitToList: (newOrbit: Orbit) => void
   deleteOrbitById: (id: string) => void
   overwriteOrbitList: (newOrbits: Orbit[]) => void
-  selectOrbitInteraction: (id: string) => void
+  selectOrbitInteraction: (id: string, clickType: ClickType) => void
 }
 
 const defaultAppContext: AppContextType = {
@@ -89,32 +91,19 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
     )
   }
 
-  const selectOrbitInteraction = (id: string): void => {
-    if (selectedOrbitA === "") {
+  const selectOrbitInteraction = (id: string, clickType: ClickType): void => {
+
+    if (clickType === 'left') {
+
+      if (id === selectedOrbitA) {
+        setSelectedOrbitA(undefined)
+        return
+      }
+
       setSelectedOrbitA(id)
-      setSelectedOrbitB(undefined)
-      return
-    }
 
-    if (selectedOrbitB === "") {
-      setSelectedOrbitA(undefined)
-      return
     }
-
-    // if we de-select orbit A, we want to push orbit B to A.
-    if (id === selectedOrbitA) {
-      const tmp = selectedOrbitB
-      setSelectedOrbitB(undefined)
-      setSelectedOrbitA(tmp)
-      return
-    }
-
-    if (id === selectedOrbitB) {
-      setSelectedOrbitB(undefined)
-      return
-    }
-
-    setSelectedOrbitB(id)
+    
   }
 
   return (

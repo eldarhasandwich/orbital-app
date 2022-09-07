@@ -34,7 +34,7 @@ type ThreeJsLineElementType = SVGLineElement & { geometry: { setFromPoints: (x: 
 const OrbitLine = (props: { id: string, orbit: Orbit, appContext: AppContextType }) => {
 
   const { id, orbit, appContext } = props;
-  const { selectedOrbitA } = appContext;
+  const { selectedOrbitA, selectedOrbitB } = appContext;
 
   const outlinePoints = GetOrbitOutlinePositionSet(orbit)
 
@@ -48,7 +48,7 @@ const OrbitLine = (props: { id: string, orbit: Orbit, appContext: AppContextType
   return (
     <line ref={ref}>
       <bufferGeometry />
-      <lineBasicMaterial color={selectedOrbitA === id ? 'hotpink' : 'white'} linewidth={20} />
+      <lineBasicMaterial color={selectedOrbitA === id || selectedOrbitB === id ? 'hotpink' : 'white'} linewidth={20} />
     </line>
   )
 }
@@ -60,7 +60,8 @@ const PlanetOrbit = (props: { id: string, orbit: Orbit, appContext: AppContextTy
     centralMass,
     time,
     selectOrbitInteraction,
-    selectedOrbitA
+    selectedOrbitA,
+    selectedOrbitB
   } = appContext
 
   const { position } = GetOrbitStateVectors(
@@ -81,7 +82,6 @@ const PlanetOrbit = (props: { id: string, orbit: Orbit, appContext: AppContextTy
     }
 
     if (isRightClick) {
-      message.warning(`Uh oh! Right click on ${orbit.name}!`)
       selectOrbitInteraction(id, 'right')
     }
 
@@ -96,7 +96,7 @@ const PlanetOrbit = (props: { id: string, orbit: Orbit, appContext: AppContextTy
       >
 
         <sphereGeometry attach="geometry" args={[1, 16, 16]} />
-        <meshPhysicalMaterial color={selectedOrbitA === id ? 'orange' : 'brown'} />
+        <meshPhysicalMaterial color={selectedOrbitA === id || selectedOrbitB === id ? 'orange' : 'brown'} />
 
       </mesh>
 

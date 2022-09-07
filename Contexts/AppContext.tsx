@@ -97,11 +97,31 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
       if (id === selectedOrbitA) {
         setSelectedOrbitA(undefined)
+        setSelectedOrbitB(undefined)
         return
       }
 
       setSelectedOrbitA(id)
+      setSelectedOrbitB(undefined)
+      return
+    }
 
+    if (clickType === 'right') {
+      if (!selectedOrbitA) {
+        return
+      }
+
+      if (id === selectedOrbitA) {
+        return
+      }
+
+      if (id === selectedOrbitB) {
+        setSelectedOrbitB(undefined)
+        return
+      }
+
+      setSelectedOrbitB(id)
+      return
     }
     
   }

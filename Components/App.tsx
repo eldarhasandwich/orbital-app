@@ -6,6 +6,7 @@ import OrbitList from './OrbitList/OrbitList';
 import LoadPremadeSystem from './LoadPremadeSystem';
 import OrbitVisualisation from './OrbitVisualisation/OrbitVisualisation';
 import { DARK_BLUE } from '../styles/Colours';
+import GenerateTransferOrbit from './TransferOrbit/GenerateTransferOrbit';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -25,9 +26,9 @@ const App = () => {
               <Button disabled style={{ marginRight: "10px" }}>
                 Export System
               </Button>
-              <Button disabled style={{ float: 'right', top: '15px' }}>
-                Generate Transfer Orbit
-              </Button>
+
+              <GenerateTransferOrbit/>
+              
             </Header>
 
             <Content>

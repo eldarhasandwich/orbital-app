@@ -17,7 +17,8 @@ export const SolarSystem: OrbitalSystem = {
   id: 'solar_system',
   centralMass: {
     name: 'Sol',
-    mass: 1.98847 * Math.pow(10, 30)
+    // mass: 1.98847 * Math.pow(10, 30) // this is REALLY BOTHERING ME, BUT ACCURATE VALUES SEEM TO APPEAR IF YOU USE 1.98e21 instead of 1.98e30
+    mass: 1.98847 * Math.pow(10, 21)
   },
   orbits: [
     {

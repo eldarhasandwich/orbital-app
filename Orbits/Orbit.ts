@@ -115,10 +115,21 @@ export const GetOrbitStateVectors = (
 
   const { semimajorAxis, eccentricity } = orbit;
 
+  const orbitalPeriod = 2 * pi * Math.sqrt( Math.pow(semimajorAxis, 3) / (GRAVITATIONAL_CONSTANT * centralBodyMass) )
+  const degreesThroughOrbit = (timeFromEpoch / orbitalPeriod) * 360
+
+  // if (centralBodyMass !== 1) {
+  //   console.log({
+  //     orbit: orbit.name,
+  //     orbitalPeriod,
+  //     degreesThroughOrbit
+  //   })
+  // }
+  
   const inclination_radians = toRadians(orbit.inclination)
   const longitudeOfAscendingNode_radians = toRadians(orbit.longitudeOfAscendingNode)
   const argumentOfPeriapsis_radians = toRadians(orbit.argumentOfPeriapsis)
-  const meanAnomaly_radians = toRadians(orbit.meanAnomaly)
+  const meanAnomaly_radians = toRadians(orbit.meanAnomaly + degreesThroughOrbit)
 
   const eccentricAnomaly_radians = SolveKeplersEquation (meanAnomaly_radians, eccentricity)
 

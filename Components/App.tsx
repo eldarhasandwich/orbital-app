@@ -7,6 +7,7 @@ import LoadPremadeSystem from './LoadPremadeSystem';
 import OrbitVisualisation from './OrbitVisualisation/OrbitVisualisation';
 import { DARK_BLUE } from '../styles/Colours';
 import GenerateTransferOrbit from './TransferOrbit/GenerateTransferOrbit';
+import TimeControls from './Time/TimeControls';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -28,7 +29,7 @@ const App = () => {
               </Button>
 
               <GenerateTransferOrbit/>
-              
+
             </Header>
 
             <Content>
@@ -38,7 +39,7 @@ const App = () => {
             <Footer
               style={{background: DARK_BLUE, color: 'white'}}
             >
-              Gonna put some time controls here or something
+              <TimeControls/>
             </Footer>
           </Layout>
 

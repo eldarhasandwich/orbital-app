@@ -6,17 +6,17 @@ import AppContext from "../../Contexts/AppContext"
 import { isValidNumber } from "../../utils/math"
 
 function useInterval(callback, delay) {
-  const savedCallback = useRef();
+  // const savedCallback = useRef();
 
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
+  // // Remember the latest callback.
+  // useEffect(() => {
+  //   savedCallback.current = callback;
+  // }, [callback]);
 
   // Set up the interval.
   useEffect(() => {
-    function tick() {
-      savedCallback.current();
+    function tick() { 
+      callback()
     }
     if (delay !== null) {
       let id = setInterval(tick, delay);

@@ -1,13 +1,42 @@
-// import Head from 'next/head'
-// import Image from 'next/image'
-import App from '../Components/App'
+import { Space, Spin } from "antd";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+import { MEDIUM_DARK_BLUE } from "../styles/Colours";
 
-// import styles from '../styles/Home.module.css'
+const SuspenseApp = dynamic(
+  () => import("../Components/App"),
+  { suspense: true }
+);
+
+const LoadingScreen = () => {
+
+  return (
+    <div
+      style={{
+        height:'100vh',
+        width:'100vw',
+        background: MEDIUM_DARK_BLUE
+      }}
+    > 
+      <Spin 
+        size="large"
+        style={{
+          display: 'block',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          paddingTop: '45vh'
+        }}
+      />        
+    </div>
+  )
+}
 
 export default function Home() {
 
   return (
-    <App/>
+    <Suspense fallback={<LoadingScreen/>}>
+      <SuspenseApp/>
+    </Suspense>
   )
 
 }

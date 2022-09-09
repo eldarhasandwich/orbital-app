@@ -5,18 +5,16 @@ import { ChangeEvent, useContext, useEffect, useRef, useState } from "react"
 import AppContext from "../../Contexts/AppContext"
 import { isValidNumber } from "../../utils/math"
 
-function useInterval(callback, delay) {
-  // const savedCallback = useRef();
+const useInterval = (callback: Function, delay: number) => {
+  const savedCallback = useRef<Function>();
 
-  // // Remember the latest callback.
-  // useEffect(() => {
-  //   savedCallback.current = callback;
-  // }, [callback]);
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
 
-  // Set up the interval.
   useEffect(() => {
     function tick() { 
-      callback()
+      savedCallback.current();
     }
     if (delay !== null) {
       let id = setInterval(tick, delay);
@@ -37,17 +35,16 @@ const TimeControls = () => {
       return
     }
 
-    setSimulationTime(parseFloat(e.target.value))
+    const t: number = parseFloat(e.target.value)
 
+    setSimulationTime(t)
   }
 
   useInterval(() => {
+    if (!timeIsRunning) return
 
-    if (timeIsRunning) {
-      setSimulationTime(time + (86400 / 60))
-    }
-
-  }, 1000 / 60)
+    setSimulationTime(time + (86400/60))
+  }, (1000/60))
 
   return (
     <>

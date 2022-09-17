@@ -1,7 +1,65 @@
-import { Orbit } from '../../Orbits/Orbit'
-import { Card, Input, Button, Tooltip, Modal } from 'antd';
-import { useContext, useState } from 'react';
+import { Input, Tooltip, Modal } from 'antd';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import AppContext from '../../Contexts/AppContext';
+
+type FieldValidator = (valueToValidate: string) => string | undefined
+
+interface InputContent {
+  title: string
+  value: string
+  onChangeFn: Dispatch<SetStateAction<string>>
+  validationMethods: FieldValidator[]
+  unit?: string
+}
+
+const validateField = (field: InputContent): string | undefined => {
+  return field.validationMethods.reduce<string| undefined>(( existingValidationMessage, method ) => {
+    if (existingValidationMessage) {
+      return existingValidationMessage;
+    }
+    const validationOutput = method(field.value)
+    return validationOutput
+  }, undefined)
+}
+
+// const isValidNumber: FieldValidator = (n: string) => {
+//   if ( !(/^[0-9][0-9]*(\.[0-9][0-9]*)?$/).test(n) ) {
+//     return 'Requires Number'
+//   }
+
+//   return undefined
+// }
+
+const isValidNumber: FieldValidator = (n: string) => {
+  if ( isNaN(parseFloat(n)) ) {
+    return 'Requires Number'
+  }
+
+  return undefined
+}
+
+
+const isNotZero: FieldValidator = (n: string) => {
+  if (parseFloat(n) === 0) {
+    return 'Cannot be equal to Zero'
+  }
+
+  return undefined
+}
+
+const isNotLessThanZero: FieldValidator = (n: string) => {
+  if (parseFloat(n) < 0) {
+    return 'Cannot be less than Zero'
+  }
+
+  return undefined
+}
+
+const isNotApproachingOrMoreThanOne: FieldValidator = (n: string) => {
+  if (parseFloat(n) >= 0.999) {
+    return 'Values higher than 0.999 are unsupported'
+  }
+}
 
 const AddOrbitModal = (props: {
   isVisible: boolean
@@ -20,10 +78,6 @@ const AddOrbitModal = (props: {
   const [arg, setArg] = useState("0")
   const [m0, setM0] = useState("0")
 
-  const isValidNumber = (n: string): boolean => {
-    return (/^[0-9][0-9]*(\.[0-9][0-9]*)?$/).test(n)
-  }
-
   const resetInput = () => {
     setE("0")
     setA("0")
@@ -33,52 +87,51 @@ const AddOrbitModal = (props: {
     setM0("0")
   }
 
-  const inputContents = [
+  const inputContents: InputContent[] = [
     {
       title: "Eccentricity",
       value: e,
       onChangeFn: setE,
-      isValid: isValidNumber(e),
-      unit: undefined
+      validationMethods: [ isValidNumber, isNotLessThanZero, isNotApproachingOrMoreThanOne ]
     },
     {
       title: "Semimajor Axis",
       value: a,
       onChangeFn: setA,
-      isValid: isValidNumber(a),
+      validationMethods: [ isValidNumber, isNotLessThanZero, isNotZero ],
       unit: 'metres'
     },
     {
       title: "Inclination",
       value: i,
       onChangeFn: setI,
-      isValid: isValidNumber(i),
+      validationMethods: [ isValidNumber ],
       unit: 'degrees'
     },
     {
       title: "Long. of Acend.",
       value: long,
       onChangeFn: setLong,
-      isValid: isValidNumber(long),
+      validationMethods: [ isValidNumber ],
       unit: 'degrees'
     },
     {
       title: "Arg. of Peri.",
       value: arg,
       onChangeFn: setArg,
-      isValid: isValidNumber(arg),
+      validationMethods: [ isValidNumber ],
       unit: 'degrees'
     },
     {
       title: "Mean Anomaly",
       value: m0,
       onChangeFn: setM0,
-      isValid: isValidNumber(m0),
+      validationMethods: [ isValidNumber ],
       unit: 'degrees'
     }
   ]
 
-  const allValid = inputContents.length === inputContents.filter(i => i.isValid).length
+  const allValid = inputContents.length === inputContents.filter(field => !validateField(field)).length
 
   const addOrbitFn = () => {
     addOrbitToList({
@@ -111,17 +164,22 @@ const AddOrbitModal = (props: {
       <Input addonBefore={'Name'} value={name} onChange={e => setName(e.target.value)} style={{marginBottom: "4px"}}/>
 
       {
-        inputContents.map(field => (
-          <Tooltip key={field.title} placement="right" title="Requires Number" visible={!field.isValid} color='orange'>
-            <Input 
-              addonBefore={field.title}
-              addonAfter={field.unit}
-              value={field.value} 
-              onChange={e => field.onChangeFn(e.target.value)} 
-              style={{marginBottom: "4px"}} 
-            />
-          </Tooltip>
-        ))
+        inputContents.map(field => {
+
+          const isValid = validateField(field)
+          
+          return (
+            <Tooltip key={field.title} placement="right" title={isValid} visible={!!isValid} color='orange'>
+              <Input 
+                addonBefore={field.title}
+                addonAfter={field.unit}
+                value={field.value} 
+                onChange={e => field.onChangeFn(e.target.value)} 
+                style={{marginBottom: "4px"}} 
+              />
+            </Tooltip>
+          )
+        })
       }
 
     </Modal>

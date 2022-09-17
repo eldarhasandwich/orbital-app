@@ -1,11 +1,13 @@
 
-import { Button, Card} from 'antd';
-import { useContext, useEffect, useState } from 'react';
+import { Button, Card, Collapse} from 'antd';
+import { useContext, useState } from 'react';
 
 import AddOrbitModal from './AddOrbitModal'
 import { Orbit } from '../../Orbits/Orbit'
 import AppContext from '../../Contexts/AppContext';
 import EditCentralMassModal from './EditCentralMassModal';
+
+const { Panel } = Collapse;
 
 const itemStyle = {
   width: 'calc(100% - 8px)',
@@ -40,13 +42,19 @@ const OrbitListItem = (props: {
       extra={<a onClick={() => askNicelyToConfirmDeleteOrbit()} style={{ color: "red" }}>Delete</a>}
       style={itemStyle}
     >
-      <p> Name: {orbit.name} </p>
-      <p> Eccentricity: {orbit.eccentricity} </p>
-      <p> Semimajor Axis: {formatBigNumberWithCommas(orbit.semimajorAxis)} metres </p>
-      <p> Inclination: {orbit.inclination} degrees </p>
-      <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
-      <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
-      <p> Mean Anomaly: {orbit.meanAnomaly} degrees </p>
+      <Collapse bordered={false}>
+        <Panel header={ orbit.name } key="1">
+
+          <p> Eccentricity: {orbit.eccentricity} </p>
+          <p> Semimajor Axis: {formatBigNumberWithCommas(orbit.semimajorAxis)} metres </p>
+          <p> Inclination: {orbit.inclination} degrees </p>
+          <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
+          <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
+          <p> Mean Anomaly: {orbit.meanAnomaly} degrees </p>
+        
+        </Panel>
+
+      </Collapse>
     </Card>
   )
 }

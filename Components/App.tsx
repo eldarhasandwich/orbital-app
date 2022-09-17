@@ -37,7 +37,7 @@ const App = () => {
             </Content>
 
             <Footer
-              style={{background: DARK_BLUE, color: 'white'}}
+              style={{background: DARK_BLUE, color: 'white', height: '128px'}}
             >
               <TimeControls/>
             </Footer>

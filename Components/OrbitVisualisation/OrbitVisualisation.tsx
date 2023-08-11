@@ -10,7 +10,7 @@ import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 import Controls from './OrbitControls';
 
 // divide position vectors by this number
-const SCALING_FACTOR = 10_000_000;
+const SCALING_FACTOR = 10_000_000_000;
 
 const GetOrbitOutlinePositionSet = (orbit: Orbit): THREE.Vector3[] => {
   const pointSet = Array.from(Array(360)).map((_, point) => {

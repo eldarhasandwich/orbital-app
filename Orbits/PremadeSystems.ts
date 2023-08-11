@@ -10,7 +10,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Ceres',
     eccentricity: 0.0758,
-    semimajorAxis: 413_700_000,
+    semimajorAxis: 413_700_000_000,
     inclination: 10.593,
     longitudeOfAscendingNode: 80.3293,
     argumentOfPeriapsis: 73.5977,
@@ -19,7 +19,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Haumea',
     eccentricity: 0.19126,
-    semimajorAxis: 6_484_000_000,
+    semimajorAxis: 6_484_000_000_000,
     inclination: 28.22,
     longitudeOfAscendingNode: 121.8886,
     argumentOfPeriapsis: 241.935,
@@ -28,7 +28,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Makemake',
     eccentricity: 0.1594,
-    semimajorAxis: 6_850_000_000,
+    semimajorAxis: 6_850_000_000_000,
     inclination: 29.00685,
     longitudeOfAscendingNode: 79.36588,
     argumentOfPeriapsis: 297.365,
@@ -37,7 +37,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Eris',
     eccentricity: 0.44177,
-    semimajorAxis: 10_120_000_000,
+    semimajorAxis: 10_120_000_000_000,
     inclination: 44.0445,
     longitudeOfAscendingNode: 35.8779,
     argumentOfPeriapsis: 151.7048,
@@ -46,7 +46,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Pallas',
     eccentricity: 0.231,
-    semimajorAxis: 414_000_000,
+    semimajorAxis: 414_000_000_000,
     inclination: 34.84,
     longitudeOfAscendingNode: 173.08,
     argumentOfPeriapsis: 310.155,
@@ -55,7 +55,7 @@ const SolarSystemDwarfPlanets: Orbit[] = [
   {
     name: 'Vesta',
     eccentricity: 0.08874,
-    semimajorAxis: 353_316_000,
+    semimajorAxis: 353_316_000_000,
     inclination: 7.1354,
     longitudeOfAscendingNode: 103.8117,
     argumentOfPeriapsis: 151.1986,
@@ -74,14 +74,14 @@ export const SolarSystem: OrbitalSystem = {
   id: 'solar_system',
   centralMass: {
     name: 'Sol',
-    // mass: 1.98847 * Math.pow(10, 30) // this is REALLY BOTHERING ME, BUT ACCURATE VALUES SEEM TO APPEAR IF YOU USE 1.98e21 instead of 1.98e30
-    mass: 1.98847 * Math.pow(10, 21)
+    mass: 1.98847 * Math.pow(10, 30) // this is REALLY BOTHERING ME, BUT ACCURATE VALUES SEEM TO APPEAR IF YOU USE 1.98e21 instead of 1.98e30
+    // mass: 1.98847 * Math.pow(10, 21)
   },
   orbits: [
     {
       name: 'Mercury',
       eccentricity: 0.205630,
-      semimajorAxis: 57_909_050,
+      semimajorAxis: 57_909_050_000,
       inclination: 6.35,
       longitudeOfAscendingNode: 48.331,
       argumentOfPeriapsis: 29.124,
@@ -90,7 +90,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Venus',
       eccentricity: 0.006772,
-      semimajorAxis: 108_208_000,
+      semimajorAxis: 108_208_000_000,
       inclination: 2.15,
       longitudeOfAscendingNode: 76.680,
       argumentOfPeriapsis: 54.884,
@@ -99,7 +99,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Earth',
       eccentricity: 0.0167086,
-      semimajorAxis: 149_598_023,
+      semimajorAxis: 149_598_023_000,
       inclination: 1.57869,
       longitudeOfAscendingNode: -11.26064,
       argumentOfPeriapsis: 114.20783,
@@ -108,7 +108,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Mars',
       eccentricity: 0.0934,
-      semimajorAxis: 227_939_366,
+      semimajorAxis: 227_939_366_000,
       inclination: 1.63,
       longitudeOfAscendingNode: 49.57854,
       argumentOfPeriapsis: 286.5,
@@ -117,7 +117,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Jupiter',
       eccentricity: 0.0489,
-      semimajorAxis: 778_547_200,
+      semimajorAxis: 778_547_200_000,
       inclination: 1.304,
       longitudeOfAscendingNode: 100.464,
       argumentOfPeriapsis: 275.066,
@@ -126,7 +126,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Saturn',
       eccentricity: 0.0565,
-      semimajorAxis: 1_426_725_400,
+      semimajorAxis: 1_426_725_400_000,
       inclination: 2.485,
       longitudeOfAscendingNode: 113.665,
       argumentOfPeriapsis: 339.392,
@@ -135,7 +135,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Uranus',
       eccentricity: 0.046381,
-      semimajorAxis: 2_872_972_200,
+      semimajorAxis: 2_872_972_200_000,
       inclination: 0.772,
       longitudeOfAscendingNode: 74.006,
       argumentOfPeriapsis: 96.998857,
@@ -144,7 +144,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Neptune',
       eccentricity: 0.009456,
-      semimajorAxis: 4_498_252_900,
+      semimajorAxis: 4_498_252_900_000,
       inclination: 1.769,
       longitudeOfAscendingNode: 131.784,
       argumentOfPeriapsis: 272.8461,
@@ -153,7 +153,7 @@ export const SolarSystem: OrbitalSystem = {
     {
       name: 'Pluto', // Although not a planet, let's include for completeness
       eccentricity: 0.2488,
-      semimajorAxis: 5_906_376_273,
+      semimajorAxis: 5_906_376_273_000,
       inclination: 17.16,
       longitudeOfAscendingNode: 110.303,
       argumentOfPeriapsis: 113.763,

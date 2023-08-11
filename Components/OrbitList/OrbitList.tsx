@@ -7,12 +7,19 @@ import { Orbit } from '../../Orbits/Orbit'
 import AppContext from '../../Contexts/AppContext';
 import EditCentralMassModal from './EditCentralMassModal';
 
-const { Panel } = Collapse;
-
 const itemStyle = {
   width: 'calc(100% - 8px)',
   marginLeft: '4px',
   marginTop: '4px'
+}
+
+const DisableClickPropagation = {
+  onClick: e => { 
+    e.stopPropagation()
+  },
+  onContextMenu: e => {
+    e.stopPropagation()
+  }
 }
 
 const OrbitListItem = (props: {
@@ -20,9 +27,16 @@ const OrbitListItem = (props: {
   orbit: Orbit
 }) => {
 
+  const [ isDetailsVisible, setIsDetailsVisible ] = useState<boolean>(false);
+
   const { id, orbit } = props
 
-  const { deleteOrbitById, selectedOrbitA, selectedOrbitB } = useContext(AppContext);
+  const { 
+    deleteOrbitById,
+    selectedOrbitA,
+    selectedOrbitB,
+    selectOrbitInteraction
+  } = useContext(AppContext);
 
   const askNicelyToConfirmDeleteOrbit = () => {
     const answer = confirm('Are you sure you want to delete this?')
@@ -40,30 +54,59 @@ const OrbitListItem = (props: {
   return (
     <Card
       size="small"
-      title="Orbit"
+      title={orbit.name}
       headStyle={{
         color: currentCardIsSelected ? 'white' : undefined
       }}
-      extra={<a onClick={() => askNicelyToConfirmDeleteOrbit()} style={{ color: "red" }}>Delete</a>}
+      extra={
+        <a 
+          {...DisableClickPropagation}
+          onClick={e =>{
+            e.stopPropagation()
+            askNicelyToConfirmDeleteOrbit()
+          }}
+          style={{ color: "red" }}
+        >
+          Delete
+        </a>
+      }
       style={{
         ...itemStyle,
         backgroundColor: currentCardIsSelected ? '#1890ff' : undefined
       }}
-      // onClick={() => { console.log('click on card') }}
+      onClick={ _ => { 
+        selectOrbitInteraction(id, 'left')
+      }}
+      onContextMenu={ e => {
+        e.preventDefault()
+        selectOrbitInteraction(id, 'right')
+      }}
     >
-      <Collapse bordered={false}>
-        <Panel header={ orbit.name } key="1">
+        <Button
+          {...DisableClickPropagation}
+          onClick={e => {
+            e.stopPropagation()
+            setIsDetailsVisible(!isDetailsVisible)
+          }}
+          style={{
+            marginBottom: '5px'
+          }}
+        >
+          Show Details
+        </Button>
 
-          <p> Eccentricity: {orbit.eccentricity} </p>
-          <p> Semimajor Axis: {formatBigNumberWithCommas(orbit.semimajorAxis)} metres </p>
-          <p> Inclination: {orbit.inclination} degrees </p>
-          <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
-          <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
-          <p> Mean Anomaly: {orbit.meanAnomaly} degrees </p>
-        
-        </Panel>
-
-      </Collapse>
+        { isDetailsVisible && (
+          <Card
+            {...DisableClickPropagation}
+          >
+              <p> Eccentricity: {orbit.eccentricity} </p>
+              <p> Semimajor Axis: {formatBigNumberWithCommas(orbit.semimajorAxis)} metres </p>
+              <p> Inclination: {orbit.inclination} degrees </p>
+              <p> Longitude of Ascending Node: {orbit.longitudeOfAscendingNode} degrees </p>
+              <p> Argument of Periapsis: {orbit.argumentOfPeriapsis} degrees </p>
+              <p> Mean Anomaly: {orbit.meanAnomaly} degrees </p>
+          </Card>
+        )}
     </Card>
   )
 }

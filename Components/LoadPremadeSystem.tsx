@@ -11,7 +11,10 @@ const LoadPremadeSystem = () => {
   const { 
     editCentralMassName,
     editCentralMassMass,
-    overwriteOrbitList
+    overwriteOrbitList,
+    setSelectedOrbitA,
+    setSelectedOrbitB,
+    setGenerateTransferOrbitPanelOpen
   } = useContext(AppContext);
 
   const handleMenuSelection = (item: { key: string }) => {
@@ -19,6 +22,10 @@ const LoadPremadeSystem = () => {
     if (!answer) {
       return
     }
+
+    setSelectedOrbitA(undefined)
+    setSelectedOrbitB(undefined)
+    setGenerateTransferOrbitPanelOpen(false)
   
     const { key } = item;
   

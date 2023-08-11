@@ -72,7 +72,7 @@ const AddOrbitModal = (props: {
 
   const [name, setName] = useState("Unnamed Orbit")
   const [e, setE] = useState("0")
-  const [a, setA] = useState("0")
+  const [a, setA] = useState("1")
   const [i, setI] = useState("0")
   const [long, setLong] = useState("0")
   const [arg, setArg] = useState("0")
@@ -154,7 +154,7 @@ const AddOrbitModal = (props: {
 
   return (
     <Modal
-      visible={isVisible}
+      open={isVisible}
       title="New Orbit"
       onOk={addOrbitFn}
       okButtonProps={{disabled: !allValid}}
@@ -169,7 +169,7 @@ const AddOrbitModal = (props: {
           const isValid = validateField(field)
           
           return (
-            <Tooltip key={field.title} placement="right" title={isValid} visible={!!isValid} color='orange'>
+            <Tooltip key={field.title} placement="right" title={isValid} open={!!isValid} color='orange'>
               <Input 
                 addonBefore={field.title}
                 addonAfter={field.unit}

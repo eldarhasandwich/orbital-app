@@ -22,7 +22,7 @@ const OrbitListItem = (props: {
 
   const { id, orbit } = props
 
-  const { deleteOrbitById } = useContext(AppContext);
+  const { deleteOrbitById, selectedOrbitA, selectedOrbitB } = useContext(AppContext);
 
   const askNicelyToConfirmDeleteOrbit = () => {
     const answer = confirm('Are you sure you want to delete this?')
@@ -35,12 +35,21 @@ const OrbitListItem = (props: {
     return n
   }
 
+  const currentCardIsSelected = (id === selectedOrbitA || id === selectedOrbitB)
+
   return (
     <Card
       size="small"
       title="Orbit"
+      headStyle={{
+        color: currentCardIsSelected ? 'white' : undefined
+      }}
       extra={<a onClick={() => askNicelyToConfirmDeleteOrbit()} style={{ color: "red" }}>Delete</a>}
-      style={itemStyle}
+      style={{
+        ...itemStyle,
+        backgroundColor: currentCardIsSelected ? '#1890ff' : undefined
+      }}
+      // onClick={() => { console.log('click on card') }}
     >
       <Collapse bordered={false}>
         <Panel header={ orbit.name } key="1">

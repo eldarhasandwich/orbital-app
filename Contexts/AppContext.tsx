@@ -1,4 +1,5 @@
 
+import { message } from 'antd';
 import React, { ReactElement, ReactNode, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -19,6 +20,8 @@ export interface AppContextType {
   selectedOrbitA?: string
   selectedOrbitB?: string
 
+  isGenerateTransferOrbitPanelOpen: boolean;
+
   setSimulationTime: (newTime: number) => void
 
   editCentralMassName: (newName: string) => void
@@ -28,6 +31,11 @@ export interface AppContextType {
   deleteOrbitById: (id: string) => void
   overwriteOrbitList: (newOrbits: Orbit[]) => void
   selectOrbitInteraction: (id: string, clickType: ClickType) => void
+
+  setSelectedOrbitA: (id?: string) => void
+  setSelectedOrbitB: (id?: string) => void
+
+  setGenerateTransferOrbitPanelOpen: (value: boolean) => void
 }
 
 const defaultAppContext: AppContextType = {
@@ -37,13 +45,17 @@ const defaultAppContext: AppContextType = {
     mass: 1
   },
   orbitList: [],
+  isGenerateTransferOrbitPanelOpen: false,
   setSimulationTime: () => {},
   editCentralMassName: () => {},
   editCentralMassMass: () => {},
   addOrbitToList: () => {},
   deleteOrbitById: () => {},
   overwriteOrbitList: () => {},
-  selectOrbitInteraction: () => {}
+  selectOrbitInteraction: () => {},
+  setSelectedOrbitA: () => {},
+  setSelectedOrbitB: () => {},
+  setGenerateTransferOrbitPanelOpen: () => {}
 }
 
 const AppContext = React.createContext<AppContextType>(defaultAppContext);
@@ -59,6 +71,8 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const [ selectedOrbitA, setSelectedOrbitA ] = useState<string | undefined>(undefined);
   const [ selectedOrbitB, setSelectedOrbitB ] = useState<string | undefined>(undefined);
+
+  const [ isGenerateTransferOrbitPanelOpen, _setGenerateTransferOrbitPanelOpen ] = useState<boolean>(false);
 
   const setSimulationTime = (newTime: number): void => {
     setTime(newTime);
@@ -93,6 +107,11 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const selectOrbitInteraction = (id: string, clickType: ClickType): void => {
 
+    if (isGenerateTransferOrbitPanelOpen) {
+      message.warning('Please cancel the transfer orbit before selecting another planet.')
+      return
+    }
+
     if (clickType === 'left') {
 
       if (id === selectedOrbitA) {
@@ -122,10 +141,13 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
       setSelectedOrbitB(id)
       return
-    }
-    
+    }    
   }
 
+  const setGenerateTransferOrbitPanelOpen = (value: boolean) => {
+    _setGenerateTransferOrbitPanelOpen(value)
+  }
+  
   return (
     <>
       <AppContext.Provider
@@ -140,11 +162,15 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
           editCentralMassName,
           editCentralMassMass,
           selectedOrbitA,
-          selectedOrbitB,        
+          selectedOrbitB,      
+          isGenerateTransferOrbitPanelOpen,  
           addOrbitToList,
           deleteOrbitById,
           overwriteOrbitList,
-          selectOrbitInteraction
+          selectOrbitInteraction,
+          setSelectedOrbitA,
+          setSelectedOrbitB,
+          setGenerateTransferOrbitPanelOpen
         }}
       >
         {children}

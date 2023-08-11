@@ -7,6 +7,7 @@ Readings
 - https://en.wikipedia.org/wiki/Epoch_(astronomy)#J2000
 - http://www.braeunig.us/space/
 - http://www.braeunig.us/space/orbmech.htm
+- https://en.wikipedia.org/wiki/Lambert%27s_problem#:~:text=In%20celestial%20mechanics%2C%20Lambert's%20problem,proof%20by%20Joseph%2DLouis%20Lagrange.
 
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

@@ -1,15 +1,44 @@
 
 import { Button, Layout } from 'antd';
 
-import { AppContextContainer } from '../Contexts/AppContext';
+import AppContext, { AppContextContainer } from '../Contexts/AppContext';
 import OrbitList from './OrbitList/OrbitList';
 import LoadPremadeSystem from './LoadPremadeSystem';
 import OrbitVisualisation from './OrbitVisualisation/OrbitVisualisation';
 import { DARK_BLUE } from '../styles/Colours';
-import GenerateTransferOrbit from './TransferOrbit/GenerateTransferOrbit';
+import GenerateTransferButton from './TransferOrbit/GenerateTransferButton';
 import TimeControls from './Time/TimeControls';
+import { useContext } from 'react';
+import GenreateTransferUi from './TransferOrbit/GenerateTransferUi';
 
 const { Header, Footer, Sider, Content } = Layout;
+
+const Sidebar: React.FC = () => {
+
+  const { isGenerateTransferOrbitPanelOpen } = useContext(AppContext)
+
+  return (
+    <Sider
+      hidden={false}
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        left: 0,
+        background: DARK_BLUE
+      }}
+      width={400}
+    >
+      
+      {
+        (isGenerateTransferOrbitPanelOpen)
+          ? (<GenreateTransferUi/>)
+          : (<OrbitList/>)
+
+      }
+      
+    </Sider>
+  )
+}
 
 const App = () => {
   return (
@@ -28,7 +57,7 @@ const App = () => {
                 Export System
               </Button>
 
-              <GenerateTransferOrbit/>
+              <GenerateTransferButton/>
 
             </Header>
 
@@ -43,18 +72,7 @@ const App = () => {
             </Footer>
           </Layout>
 
-          <Sider
-            hidden={false}
-            style={{
-              overflow: 'auto',
-              height: '100vh',
-              left: 0,
-              background: DARK_BLUE
-            }}
-            width={400}
-          >
-            <OrbitList/>
-          </Sider>
+          <Sidebar/>
 
         </Layout>
       </AppContextContainer>

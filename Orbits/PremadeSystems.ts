@@ -3,6 +3,7 @@ import { CentralMass, Orbit } from "./Orbit";
 interface OrbitalSystem {
   id: string
   centralMass: CentralMass
+  visualisationScalingFactor: number
   orbits: Orbit[]
 }
 
@@ -77,6 +78,7 @@ export const SolarSystem: OrbitalSystem = {
     mass: 1.98847 * Math.pow(10, 30) // this is REALLY BOTHERING ME, BUT ACCURATE VALUES SEEM TO APPEAR IF YOU USE 1.98e21 instead of 1.98e30
     // mass: 1.98847 * Math.pow(10, 21)
   },
+  visualisationScalingFactor: 10_000_000_000,
   orbits: [
     {
       name: 'Mercury',
@@ -172,6 +174,7 @@ export const KerbolSystem: OrbitalSystem = {
     name: 'Kerbol',
     mass: 1.7565459 * Math.pow(10, 28)
   },
+  visualisationScalingFactor: 1_000_000_000,
   orbits: [
     {
       name: 'Moho',

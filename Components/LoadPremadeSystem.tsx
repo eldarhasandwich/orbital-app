@@ -14,7 +14,8 @@ const LoadPremadeSystem = () => {
     overwriteOrbitList,
     setSelectedOrbitA,
     setSelectedOrbitB,
-    setGenerateTransferOrbitPanelOpen
+    setGenerateTransferOrbitPanelOpen,
+    setVisualisationScalingFactor
   } = useContext(AppContext);
 
   const handleMenuSelection = (item: { key: string }) => {
@@ -34,6 +35,7 @@ const LoadPremadeSystem = () => {
     editCentralMassName(selectedSystem.centralMass.name)
     editCentralMassMass(selectedSystem.centralMass.mass)
     overwriteOrbitList(selectedSystem.orbits)
+    setVisualisationScalingFactor(selectedSystem.visualisationScalingFactor)
   }
 
   const menu = (

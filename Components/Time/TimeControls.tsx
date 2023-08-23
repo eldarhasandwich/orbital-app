@@ -34,48 +34,18 @@ const markToSecondValueMap = {
   6: 31536000 // 1 year
 }
 
-const marks: SliderMarks = {
-  1: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>Second</strong>,
-  },
-  2: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>Day</strong>,
-  },
-  3: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>Week</strong>,
-  },
-  4: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>Month</strong>,
-  },
-  5: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>6 Months</strong>,
-  },
-  6: {
-    style: {
-      color: '#f50',
-    },
-    label: <strong>Year</strong>,
-  },
+const markToNameValueMap = {
+  1: 'Second',
+  2: 'Day',
+  3: 'Week',
+  4: 'Month',
+  5: '6 Months',
+  6: 'Year'
 }
 
 const TimeControls = () => {
 
-  const { time, setSimulationTime } = useContext(AppContext)
+  const { time, setSimulationTime, isGenerateTransferOrbitPanelOpen } = useContext(AppContext)
   
   const [ simulationRate, setSimulationRate ] = useState(1)
   const [ timeIsRunning, setTimeIsRunning ] = useState(false)
@@ -93,20 +63,15 @@ const TimeControls = () => {
 
   useInterval(() => {
     if (!timeIsRunning) return
+    if (isGenerateTransferOrbitPanelOpen) return
 
     setSimulationTime(time + (simulationRate / TICK_RATE))
   }, (1000 / TICK_RATE))
 
-  const handleSliderInput = (newValue: number) => {
-    console.log({newValue})
-
-    setSimulationRate(markToSecondValueMap[newValue])
-  }
-
   return (
     <>
       <Input 
-        disabled={timeIsRunning}
+        disabled={timeIsRunning || isGenerateTransferOrbitPanelOpen}
         addonBefore={'time'} 
         addonAfter={'seconds since epoch'}
         value={time.toString()}
@@ -118,6 +83,7 @@ const TimeControls = () => {
 
       <Button
         type='primary'
+        disabled={isGenerateTransferOrbitPanelOpen}
         danger={timeIsRunning}
         onClick={() => { setTimeIsRunning(!timeIsRunning) }}
         style={{ marginLeft: '10px', width: '65px' }}
@@ -131,15 +97,28 @@ const TimeControls = () => {
         {`Simulation running at ${simulationRate} seconds/s`}
       </span>
 
-      <Slider 
-        min={1} 
-        max={6} 
-        onChange={handleSliderInput}
-        tooltip={{ open: false }}
-        marks={marks} 
-        step={null} 
-        defaultValue={86400} 
+      <br
+        style={{
+          height:'5px'
+        }}
       />
+
+      {
+        [1, 2, 3, 4, 5, 6].map(i => {
+          return (
+            <Button
+              onClick={() => {
+                setSimulationRate(markToSecondValueMap[i])
+              }}
+              disabled={markToSecondValueMap[i] === simulationRate}
+              type='primary'
+            >
+              {markToNameValueMap[i]}
+            </Button>
+          )
+        })
+      }
+
     </>
   )
 }

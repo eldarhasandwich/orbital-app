@@ -20,6 +20,9 @@ export interface AppContextType {
   selectedOrbitA?: string
   selectedOrbitB?: string
 
+  visualisationScalingFactor: number
+  setVisualisationScalingFactor: (newScale: number) => void
+
   isGenerateTransferOrbitPanelOpen: boolean;
 
   setSimulationTime: (newTime: number) => void
@@ -45,6 +48,8 @@ const defaultAppContext: AppContextType = {
     mass: 1
   },
   orbitList: [],
+  visualisationScalingFactor: 10_000_000_000,
+  setVisualisationScalingFactor: () => {},
   isGenerateTransferOrbitPanelOpen: false,
   setSimulationTime: () => {},
   editCentralMassName: () => {},
@@ -71,6 +76,8 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
 
   const [ selectedOrbitA, setSelectedOrbitA ] = useState<string | undefined>(undefined);
   const [ selectedOrbitB, setSelectedOrbitB ] = useState<string | undefined>(undefined);
+
+  const [ visualisationScalingFactor, setVisualisationScalingFactor ] = useState<number>(10_000_000_000);
 
   const [ isGenerateTransferOrbitPanelOpen, _setGenerateTransferOrbitPanelOpen ] = useState<boolean>(false);
 
@@ -162,7 +169,9 @@ export const AppContextContainer: React.FC<{children: ReactElement}> = ({childre
           editCentralMassName,
           editCentralMassMass,
           selectedOrbitA,
-          selectedOrbitB,      
+          selectedOrbitB,
+          visualisationScalingFactor,
+          setVisualisationScalingFactor,
           isGenerateTransferOrbitPanelOpen,  
           addOrbitToList,
           deleteOrbitById,

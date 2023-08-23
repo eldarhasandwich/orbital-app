@@ -1,4 +1,4 @@
-import { message } from 'antd'
+// import { message } from 'antd'
 import { Canvas, ThreeEvent } from "@react-three/fiber";
 import { useContext, useRef, useLayoutEffect } from "react";
 import * as THREE from 'three'
@@ -9,10 +9,7 @@ import { MEDIUM_DARK_BLUE } from "../../styles/Colours";
 
 import Controls from './OrbitControls';
 
-// divide position vectors by this number
-const SCALING_FACTOR = 10_000_000_000;
-
-const GetOrbitOutlinePositionSet = (orbit: Orbit): THREE.Vector3[] => {
+const GetOrbitOutlinePositionSet = (orbit: Orbit, scalingFactor: number): THREE.Vector3[] => {
   const pointSet = Array.from(Array(360)).map((_, point) => {
 
     const { position } = GetOrbitStateVectors(
@@ -21,7 +18,7 @@ const GetOrbitOutlinePositionSet = (orbit: Orbit): THREE.Vector3[] => {
       0
     )
 
-    const scaledPosition = position.map(x => x / SCALING_FACTOR)
+    const scaledPosition = position.map(x => x / scalingFactor)
     return new THREE.Vector3(scaledPosition[0], scaledPosition[2], scaledPosition[1])
   })
 
@@ -34,9 +31,9 @@ type ThreeJsLineElementType = SVGLineElement & { geometry: { setFromPoints: (x: 
 const OrbitLine = (props: { id: string, orbit: Orbit, appContext: AppContextType }) => {
 
   const { id, orbit, appContext } = props;
-  const { selectedOrbitA, selectedOrbitB } = appContext;
+  const { selectedOrbitA, selectedOrbitB, visualisationScalingFactor } = appContext;
 
-  const outlinePoints = GetOrbitOutlinePositionSet(orbit)
+  const outlinePoints = GetOrbitOutlinePositionSet(orbit, visualisationScalingFactor)
 
   const ref = useRef<ThreeJsLineElementType>()
   useLayoutEffect(() => {
@@ -61,7 +58,8 @@ const PlanetOrbit = (props: { id: string, orbit: Orbit, appContext: AppContextTy
     time,
     selectOrbitInteraction,
     selectedOrbitA,
-    selectedOrbitB
+    selectedOrbitB,
+    visualisationScalingFactor
   } = appContext
 
   const { position } = GetOrbitStateVectors(
@@ -70,7 +68,7 @@ const PlanetOrbit = (props: { id: string, orbit: Orbit, appContext: AppContextTy
     time
   )
 
-  const p = position.map(x => x / SCALING_FACTOR)
+  const p = position.map(x => x / visualisationScalingFactor)
 
   const handleClick = (args: ThreeEvent<PointerEvent>) => {
 
